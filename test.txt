@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# git prepare-commit-msg hook for automatically prepending an issue key
+# from the start of the current branch name to commit messages.
+ 
+# check if commit is new commit
+#if [ "x$2" != "x" ]; then
+#    exit
+#fi
+ISSUE_KEY_PATTERN="[a-zA-Z][a-zA-Z0-9_]\{1,\}-[0-9]\+"
+ISSUE_KEY=`git branch --no-color | grep -o "\* \(.*/\)*${ISSUE_KEY_PATTERN}" | grep -o "${ISSUE_KEY_PATTERN}"`
+if [ $? -ne 0 ] || [ -z "$ISSUE_KEY" ]; then
+    # no issue key in br
